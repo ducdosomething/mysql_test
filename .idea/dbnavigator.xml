@@ -6,7 +6,7 @@
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
@@ -24,7 +24,9 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" object-ref="consoles/MySQL Connection" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" />
@@ -41,19 +43,19 @@
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="8.0" />
           <driver-source value="BUNDLED" />
           <driver-library value="" />
           <driver value="" />
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="3306" />
-          <database value="quanlysinhvien" />
+          <database value="quanlydetai" />
           <tns-folder value="" />
           <tns-profile value="" />
           <type value="USER_PASSWORD" />
           <user value="root" />
-          <deprecated-pwd value="Ym9uZ3VuZ3VvaTEyMw==" />
+          <deprecated-pwd value="ZHVjbGUyMTEyMDE=" />
         </database>
         <properties>
           <auto-commit value="false" />
