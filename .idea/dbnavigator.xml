@@ -17,19 +17,74 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe">
-      <console name="MySQL Connection" type="STANDARD" schema="" session="Main" />
+      <console name="MySQL Connection" type="STANDARD" schema="quanlyvattu" session="Main"><![CDATA[-- Câu 1. Tạo view có tên vw_CTPNHAP bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+create view vw_CTPNHAP as
+select p.so_phieu_nhap as SốPhiếuNhậpHàng,
+        ctn.vat_tu_id as MãVậtTư,
+        ctn.so_luong_nhap as SốLượngNhập,
+        ctn.don_gia_nhap as ĐơnGiáNhập,
+        ctn.so_luong_nhap * ctn.don_gia_nhap as ThànhTiền
+from phieunhap p join ct_phieunhap ctn 
+    on p.id = ctn.phieu_nhap_id
+
+-- Câu 2. Tạo view có tên vw_CTPNHAP_VT bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, tên vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+select * from ct_phieunhap;
+select * from vattu;
+select * from phieunhap;
+
+create view vw_CTPNHAP_VT as
+select pn.so_phieu_nhap as SốPhiếuNhậpHàng,
+        vt.ma_vat_tu as MãVậtTư,
+        vt.ten_vat_tu as TênVậtTư,
+        ctn.so_luong_nhap as SoLuongNhap,
+        ctn.so_luong_nhap * ctn.don_gia_nhap as ThànhTiền
+from ct_phieunhap ctn 
+    join vattu vt on ctn.phieu_nhap_id = vt.id
+    join phieunhap pn on ctn.phieu_nhap_id = pn.id;
+
+-- Câu 3. Tạo view có tên vw_CTPNHAP_VT_PN bao gồm các thông tin sau: số phiếu nhập hàng, ngày nhập hàng, số đơn đặt hàng, mã vật tư, tên vật tư, 
+-- số lượng nhập, đơn giá nhập, thành tiền nhập.
+select * from dondathang;
+select * from ct_dondathang;
+
+create view vw_CTPNHAP_VT_PN as
+select pn.so_phieu_nhap as SốPhiếuNhậpHàng,
+        pn.ngay_nhap as NgayNhap,
+        count(distinct ctddh.don_dat_hang_id) as SoDonDatHang,
+        vt.ma_vat_tu as MãVậtTư,
+        vt.ten_vat_tu as TênVậtTư,
+        ctn.so_luong_nhap as SoLuongNhap,
+        ctn.so_luong_nhap * ctn.don_gia_nhap as ThànhTiền
+from ct_phieunhap ctn 
+    join vattu vt on ctn.phieu_nhap_id = vt.id
+    join phieunhap pn on ctn.phieu_nhap_id = pn.id
+    join dondathang ddh on pn.don_dat_hang_id = ddh.id
+    join ct_dondathang ctddh on pn.don_dat_hang_id = ctddh.don_dat_hang_id
+group by pn.so_phieu_nhap, pn.ngay_nhap, ctn.vat_tu_id, ctn.so_luong_nhap, ctn.don_gia_nhap, vt.ten_vat_tu;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
-    <last-used-providers />
+    <last-used-providers>
+      <object-type object-type="VIEW" editor-provider="DATA" />
+    </last-used-providers>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
+      <object connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" object-ref="schemas/quanlyvattu/views/vw_ctpnhap_vt_pn" />
       <object connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" object-ref="consoles/MySQL Connection" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" dataset="quanlyvattu.phieunhap" active-filter-id="" />
+    <filter-actions connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" dataset="quanlyvattu.vw_ctpnhap_vt" active-filter-id="" />
+    <filter-actions connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" dataset="quanlyvattu.vw_ctpnhap" active-filter-id="" />
+    <filter-actions connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" dataset="quanlyvattu.vw_ctpnhap_vt_pn" active-filter-id="" />
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
