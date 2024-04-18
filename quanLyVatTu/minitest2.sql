@@ -155,6 +155,8 @@ select p.so_phieu_nhap as SốPhiếuNhậpHàng,
         ctn.so_luong_nhap * ctn.don_gia_nhap as ThànhTiền
 from phieunhap p join ct_phieunhap ctn 
     on p.id = ctn.phieu_nhap_id
+-- test
+SELECT * FROM vw_ctpnhap;
 
 -- Câu 2. Tạo view có tên vw_CTPNHAP_VT bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, tên vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
 select * from ct_phieunhap;
@@ -167,11 +169,15 @@ select pn.so_phieu_nhap as SốPhiếuNhậpHàng,
         vt.ten_vat_tu as TênVậtTư,
         ctn.so_luong_nhap as SoLuongNhap,
         ctn.so_luong_nhap * ctn.don_gia_nhap as ThànhTiền
-from ct_phieunhap ctn 
+from ct_phieunhap ctn
     join vattu vt on ctn.phieu_nhap_id = vt.id
     join phieunhap pn on ctn.phieu_nhap_id = pn.id;
 
--- Câu 3. Tạo view có tên vw_CTPNHAP_VT_PN bao gồm các thông tin sau: số phiếu nhập hàng, ngày nhập hàng, số đơn đặt hàng, mã vật tư, tên vật tư, 
+-- test
+
+SELECT * FROM vw_ctpnhap_vt;
+
+-- Câu 3. Tạo view có tên vw_CTPNHAP_VT_PN bao gồm các thông tin sau: số phiếu nhập hàng, ngày nhập hàng, số đơn đặt hàng, mã vật tư, tên vật tư,
 -- số lượng nhập, đơn giá nhập, thành tiền nhập.
 select * from dondathang;
 select * from ct_dondathang;
@@ -184,12 +190,89 @@ select pn.so_phieu_nhap as SốPhiếuNhậpHàng,
         vt.ten_vat_tu as TênVậtTư,
         ctn.so_luong_nhap as SoLuongNhap,
         ctn.so_luong_nhap * ctn.don_gia_nhap as ThànhTiền
-from ct_phieunhap ctn 
+from ct_phieunhap ctn
     join vattu vt on ctn.phieu_nhap_id = vt.id
     join phieunhap pn on ctn.phieu_nhap_id = pn.id
     join dondathang ddh on pn.don_dat_hang_id = ddh.id
     join ct_dondathang ctddh on pn.don_dat_hang_id = ctddh.don_dat_hang_id
 group by pn.so_phieu_nhap, pn.ngay_nhap, ctn.vat_tu_id, ctn.so_luong_nhap, ctn.don_gia_nhap, vt.ten_vat_tu;
+
+-- test
+
+SELECT * FROM vw_ctpnhap_vt_pn;
+
+-- Câu 4. Tạo view có tên vw_CTPNHAP_VT_PN_DH bao gồm các thông tin sau: số phiếu nhập hàng, ngày nhập hàng, số đơn đặt hàng, mã nhà cung cấp, mã vật tư,
+-- tên vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+create view vw_CTPNHAP_VT_PN_DH as
+select pn.so_phieu_nhap as "Số phiếu nhập hàng",
+        pn.ngay_nhap as "Ngày nhập hàng",
+        count(distinct ctddh.don_dat_hang_id) as "Số đơn đặt hàng",
+        ddh.nha_cung_cap_id as "Mã nhà cung cấp",
+        vt.ma_vat_tu as "Mã vật tư",
+        vt.ten_vat_tu as "Tên vật tư",
+        ctn.so_luong_nhap as "Số lượng nhập hàng",
+        ctn.don_gia_nhap as "Đơn giá nhập hàng",
+        ctn.so_luong_nhap * ctn.don_gia_nhap as "Thành tiền nhập"
+from ct_phieunhap ctn
+    join vattu vt on ctn.phieu_nhap_id = vt.id
+    join phieunhap pn on ctn.phieu_nhap_id = pn.id
+    join dondathang ddh on pn.don_dat_hang_id = ddh.id
+    join ct_dondathang ctddh on pn.don_dat_hang_id = ctddh.don_dat_hang_id
+group by pn.so_phieu_nhap, pn.ngay_nhap, ctn.vat_tu_id, ctn.so_luong_nhap, ctn.don_gia_nhap, vt.ten_vat_tu;
+
+-- test
+
+SELECT * FROM vw_ctpnhap_vt_pn_dh;
+
+-- Câu 5. Tạo view có tên vw_CTPNHAP_loc  bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+--Và chỉ liệt kê các chi tiết nhập có số lượng nhập > 30.
+
+create view vw_CTPNHAP_loc as
+select pn.so_phieu_nhap as "Số phiếu nhập hàng",
+        vt.ma_vat_tu as "Mã vật tư",
+        ctn.so_luong_nhap as "Số lượng nhập",
+        ctn.don_gia_nhap as "Đơn giá nhập",
+        ctn.so_luong_nhap * ctn.don_gia_nhap as "Thành tiền nhập"
+from ct_phieunhap ctn
+    join vattu vt on ctn.phieu_nhap_id = vt.id
+    join phieunhap pn on ctn.phieu_nhap_id = pn.id
+WHERE "Số lượng nhập" > 30;
+
+-- test
+
+SELECT * FROM vw_ctpnhap_loc;
+
+-- Câu 6. Tạo view có tên vw_CTPNHAP_VT_loc bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, tên vật tư, số lượng nhập, đơn giá nhập,
+-- thành tiền nhập. Và chỉ liệt kê các chi tiết nhập vật tư có đơn vị tính là Cái.
+
+create view vw_CTPNHAP_VT_loc_dvt as
+select pn.so_phieu_nhap as "Số phiếu nhập hàng",
+        vt.ma_vat_tu as "Mã vật tư",
+        vt.ten_vat_tu as "Tên vật tư",
+        vt.don_vi_tinh as "Đơn vị tính",
+        ctn.so_luong_nhap as "Số lượng nhập",
+        ctn.don_gia_nhap as "Đơn giá nhập",
+        ctn.so_luong_nhap * ctn.don_gia_nhap as "Thành tiền nhập"
+from ct_phieunhap ctn
+    join vattu vt on ctn.phieu_nhap_id = vt.id
+    join phieunhap pn on ctn.phieu_nhap_id = pn.id
+where "Đơn vị tính" like "Cái";
+
+-- test
+
+SELECT * FROM vw_ctpnhap_vt_loc_dvt;
+
+-- Câu 7. Tạo view có tên vw_CTPXUAT bao gồm các thông tin sau: số phiếu xuất hàng, mã vật tư, số lượng xuất, đơn giá xuất, thành tiền xuất.
+
+create view vw_CTPXUAT as
+SELECT count(px.id) as SoPhieuXuat,
+        vt.ma_vat_tu as MaVatTu,
+        ctx.so_luong_xuat as SoLuongXuat,
+        ctx.don_gia_xuat as DonGiaXuat,
+        ctx.so_luong_xuat * ctx.don_gia_xuat as ThanhTienXuat
+FROM phieuxuat px
+    join ct_phieuxuat ctx on px.id = ctx.phieu_xuat_id
+    join vattu vt on ctx.vat_tu_id = vt.id;
     
 
 

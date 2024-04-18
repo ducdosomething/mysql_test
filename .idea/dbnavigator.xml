@@ -71,7 +71,6 @@ group by pn.so_phieu_nhap, pn.ngay_nhap, ctn.vat_tu_id, ctn.so_luong_nhap, ctn.d
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
       <object connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" object-ref="schemas/quanlyvattu/views/vw_ctpnhap_vt_pn" />
-      <object connection-id="cf4f7d6a-435e-4e56-975e-7d8f3e2195fe" object-ref="consoles/MySQL Connection" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
